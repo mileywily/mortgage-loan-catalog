@@ -23,12 +23,10 @@ jobs:
     - name: Descargar dependencias
       run: go mod download
 
-    - name: Ejecutar Pruebas (Unitarias, Integración, E2E)
-      # Ejecutamos las pruebas con verbosidad para que los logs de GitHub muestren cada caso
-      run: go test -v ./internal/... ./test/... -coverprofile=coverage.txt
-
-    - name: Mostrar Cobertura de Código
-      run: go tool cover -func=coverage.txt
+    - name: Ejecutar Pruebas y Cobertura
+      run: |
+        make test
+        make coverage
 
     - name: Compilar Binario (Dry-Run)
       # Validamos que el proyecto compile exitosamente usando el Makefile corporativo
