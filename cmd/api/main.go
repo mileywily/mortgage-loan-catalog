@@ -36,12 +36,10 @@ func main() {
 
 	// 1. Dependency Injection (Wiring)
 	finnflowURL := os.Getenv("FINNFLOW_URL")
-	if finnflowURL == "" { finnflowURL = "http://localhost:9090" }
 	finnflowKey := os.Getenv("FINNFLOW_KEY")
 	finnflowSecret := os.Getenv("FINNFLOW_SECRET")
 	
 	javaLegacyURL := os.Getenv("JAVA_LEGACY_URL")
-	if javaLegacyURL == "" { javaLegacyURL = "http://localhost:8080" }
 
 	dummyRepo := repository.NewDummyRepository()
 	// realRepo is Finnflow (GET, client_id, client_secret)
@@ -85,7 +83,8 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8082" // Align with parity test script
+		slog.Error("La variable de entorno PORT no esta definida")
+		os.Exit(1)
 	}
 
 	slog.Info("Starting application", "port", port)
