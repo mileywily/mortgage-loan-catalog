@@ -1,0 +1,309 @@
+{
+	"info": {
+		"name": "Mortgage Loan Catalogs (Java vs Go Parity)",
+		"description": "Colección con los 14 casos de uso documentados para validar paridad exacta entre el legado en Java (8080) y el nuevo microservicio en Go Hexagonal (8082).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Destino (Genérico)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Destino",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Destino"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. SegurosIncendio (PascalCase)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/SegurosIncendio",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"SegurosIncendio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. segurosincendio (Minúsculas)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/segurosincendio",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"segurosincendio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. TiposDocumentos (Exact Match)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/TiposDocumentos",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"TiposDocumentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. tiposdocumentos (Genérico)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/tiposdocumentos",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"tiposdocumentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Comunas (Exact Match)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Comunas",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Comunas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. comunas (Genérico)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/comunas",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"comunas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Regiones (Genérico)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Regiones",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Regiones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. SinResultados (Pass-through)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/SinResultados",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"SinResultados"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Vacio (Array vacío)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Vacio",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Vacio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. Inexistente (402)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Inexistente",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Inexistente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. TokenInvalido (401)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/TokenInvalido",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"TokenInvalido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13. Timeout (Fallback 200)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/Timeout",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"Timeout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14. SeguroItem (Genérico)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/v1/bfcl/mortgage-loan/catalogs/SeguroItem",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"v1",
+						"bfcl",
+						"mortgage-loan",
+						"catalogs",
+						"SeguroItem"
+					]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8082",
+			"type": "string"
+		}
+	]
+}

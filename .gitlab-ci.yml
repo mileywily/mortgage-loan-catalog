@@ -1,0 +1,107 @@
+include:
+  - project: fif/dx/configurable-pipelines/golang-build-pipeline
+    ref: "v2.11"
+    file: pipeline.yml
+
+variables:
+  CI_REGISTRY: "gcr.io"
+  CI_REGISTRY_USER: "_json_key"
+  DEPLOY_PLATFORM: "null-platform"
+  DEFAULT_GROUP_CI_RUNNER_TAG: gl-runner-build
+  GOPROXY_URL: "" # empty value uses the public go Proxy instead of goproxy.fif.tech
+
+docker-build:
+  before_script:
+    - CI_REGISTRY_PASSWORD=$(echo ${GCR_SERVICE_ACCOUNT} | base64 -d) # Donde ${GCR_SERVICE_ACCOUNT} es tu credencial en Base 64
+
+container-scanning:
+  variables:
+    CI_DEBUG_SERVICES: true
+    CS_DOCKERFILE_PATH: $DOCKER_FILE_PATH
+  extends: .container-scan-secaas
+  before_script:
+    - export CS_REGISTRY_USER="_json_key_base64"
+    - export CS_REGISTRY_PASSWORD="$(printf '%s' "$GCR_SERVICE_ACCOUNT" | tr -d '\r\n' | sed 's/^"//; s/"$//')"
+    - |
+      # Si SCAN_IMAGE ya está definido, usarlo directamente
+      if [ -z "${SCAN_IMAGE}" ]; then
+        if [ -n "${ASSET_URL}" ]; then
+          export SCAN_IMAGE="${ASSET_URL}"
+        elif [ -n "${IMAGE_NAME}" ] && [ -n "${TAG}" ]; then
+          export SCAN_IMAGE="${IMAGE_NAME}:${TAG}"
+        else
+          export SCAN_IMAGE="${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
+        fi
+      fi
+      echo "SCAN_IMAGE=${SCAN_IMAGE}"
+      export CS_IMAGE="${SCAN_IMAGE}"
+    - AUTH="$(printf '%s:%s' '_json_key_base64' "$TEST_AUTH_GCR" | base64 | tr -d '\n')"
+    - mkdir -p "$CI_PROJECT_DIR/.docker"
+    - REG_HOST="$(printf '%s' "$SCAN_IMAGE" | cut -d/ -f1)"
+    - if [ -z "$REG_HOST" ]; then REG_HOST="${CI_REGISTRY:-gcr.io}"; fi
+    - |
+      {
+        echo '{ "auths": {'
+        printf '  "https://%s": { "auth": "%s" }' "$REG_HOST" "$AUTH"
+        if [ "$REG_HOST" != "gcr.io" ]; then
+          printf ',\n  "https://gcr.io": { "auth": "%s" }' "$AUTH"
+        fi
+        echo -e '\n} }'
+      } > "$CI_PROJECT_DIR/.docker/config.json"
+    - export DOCKER_CONFIG="$CI_PROJECT_DIR/.docker"
+    #- unset CS_REGISTRY_USER CS_REGISTRY_PASSWORD TRIVY_USERNAME TRIVY_PASSWORD
+    - sudo apt-get -qq update && sudo apt-get -qq install -y socat >/dev/null 2>&1
+    - nohup socat TCP-LISTEN:5001,fork,reuseaddr TCP:bqcollector:5001 >/dev/null 2>&1 &
+    - 'echo "✅ Forward configurado: http://127.0.0.1:5001 -> http://bqcollector:5001"'
+  script:
+    - |
+      if [ -z "$SCAN_IMAGE" ]; then
+        echo "🔴 ERROR: La variable SCAN_IMAGE no está definida. El trabajo no puede continuar."
+        exit 1
+      fi
+    - gtcs scan
+    - |
+      set +    
+      export title='Scan Image:'
+      echo "🟡 $title $SCAN_IMAGE 🔎 🔥 🟡"
+      sudo apt -q update > /dev/null 2>&1
+      sudo apt -q install -y wget curl > /dev/null 2>&1
+      http_status=$(curl -s -o curl_response.txt -w "%{http_code}" -X POST \
+        -H "Content-Type: application/json" \
+        --data-binary @gl-container-scanning-report.json \
+        http://127.0.0.1:5001/)
+      cat plugins.info || echo "❌ plugins.info no disponible"
+      if [[ "$http_status" -eq 200 ]]; then
+        echo ""
+        echo ""
+        echo "✅ Proceso finalizado correctamente. Vulnerabilidades bajo el umbral de severidad ✅"
+      else
+        echo ""
+        echo ""
+        echo "🔴 Proceso finalizado correctamente. Fallo por umbral de severidad excedido 🔴"
+        exit 1
+      fi
+
+
+sonarqube-analysis:
+  when: manual
+
+check:
+  image:
+    name: hub.fif.tech/dockerhub-proxy/convco/convco:0.3.12
+    entrypoint: [""]
+
+version:
+  image:
+    name: hub.fif.tech/dockerhub-proxy/convco/convco:0.3.12
+    entrypoint: [""]
+
+version-branch:
+  image:
+    name: hub.fif.tech/dockerhub-proxy/convco/convco:0.3.12
+    entrypoint: [""]
+
+scan-secrets-analysis:
+  image:
+    name: $DS_SCANNER_IMAGE
+    entrypoint: [""]

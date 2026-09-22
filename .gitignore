@@ -1,0 +1,77 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# coverage file
+coverage.txt
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+mocks/node_modules
+/bower_components
+/vendor
+
+# IDEs and editors
+.iml
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+.metadata/
+dist
+.vs/
+
+# misc
+/.sass-cache
+/connect.lock
+
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+/spec/features/isolation/step_definitions/*.pdf
+
+#logs
+/logs/*.log
+/logs/.audit.json
+
+#System Files
+.DS_Store
+Thumbs.db
+
+
+# npm-debug
+npm-debug.*
+
+# reports
+coverage.txt
+coverage/*
+artillery-report/
+.nyc_output/
+
+# Test binary, built with `go test -c`
+coverfile_out*
+
+### Go Patch ###
+/build/
+/build/bin/api-bfcl-prmt-taxes-stamp-duty
+
+# Vscode generated
+/.vscode/
+
+# IntelliJ
+.idea/
+
+
+# Local test binaries
+bin/
+*.exe
+

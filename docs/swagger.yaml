@@ -1,0 +1,98 @@
+basePath: /v1/bfcl/mortgage-loan
+definitions:
+  handler.catalogItemDTO:
+    properties:
+      codigo_adm:
+        type: string
+      descripcion:
+        type: string
+    type: object
+  handler.errorResponseDTO:
+    properties:
+      code:
+        type: string
+      detail:
+        type: string
+      errors_detail:
+        type: string
+      messages:
+        items: {}
+        type: array
+    type: object
+  handler.internalServerErrorDTO:
+    properties:
+      mensaje:
+        type: string
+      statusCode:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+host: localhost:8082
+info:
+  contact: {}
+  description: Microservicio en Go para consultar los catalogos legados de creditos
+    hipotecarios.
+  title: API de Catalogos de Creditos Hipotecarios
+  version: "1.0"
+paths:
+  /catalogs/{catalog}:
+    post:
+      consumes:
+      - application/json
+      description: Retorna los elementos de un catálogo dado (simulando comportamiento
+        legado).
+      parameters:
+      - description: Nombre del catálogo (ej. Destino, Comunas, SegurosIncendio)
+        in: path
+        name: catalog
+        required: true
+        type: string
+      - description: Canal (ej. WEB)
+        in: header
+        name: X-Channel
+        required: true
+        type: string
+      - description: Comercio (ej. FALABELLA)
+        in: header
+        name: X-Commerce
+        required: true
+        type: string
+      - description: ID de transacción (ej. 12345)
+        in: header
+        name: X-Transaction-ID
+        required: true
+        type: string
+      - description: 'Entorno a inyectar: dummy, real, o java (por defecto: dummy)'
+        in: header
+        name: X-Backend-Env
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.catalogItemDTO'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponseDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponseDTO'
+        "402":
+          description: Payment Required
+          schema:
+            $ref: '#/definitions/handler.errorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.internalServerErrorDTO'
+      summary: Obtener Catálogo
+      tags:
+      - catalogs
+swagger: "2.0"

@@ -1,0 +1,10 @@
+# Use this workspace to collaborate
+workspace:
+  id: d8f1893c-5970-4d14-8c4c-119a60d0ba90
+
+localResources:
+  collections:
+    - ../docs/Mortgage_Loan_Catalogs.postman_collection.json
+  specs:
+    - ../docs/swagger.json
+    - ../docs/swagger.yaml

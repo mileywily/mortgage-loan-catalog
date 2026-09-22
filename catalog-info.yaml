@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: mortgage-loan-catalogs
+  description: poc para mortgage-loan-catalogs
+  labels:
+    country: chile
+    portfolio: sin-identificar
+    equipo: equipo que crea la api
+  tags:
+    - api
+  links:
+    - url: url-de-apicurio
+      title: Apicurio
+      icon: docs
+spec:
+  type: openapi
+  owner: group:fiftech_integraciones_chile
+  lifecycle: pre-production
+  system: fraud-and-aml-risks-chile
+  #Copy paste del OAS
+  definition: |
+    openapi: "3.0.0"
+    info:
+      version: 1.0
+      title: Users
+    servers:
+      - url: http://integracion-k8s-dev.fif.tech
+      - url: http://integracion-k8s-qa.fif.tech
+    paths:
+      /fifcl/v1/users:
+        post:
+          summary: Crear un usuario
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-mortgage-loan-catalogs
+  description: poc para mortgage-loan-catalogs
+  labels:
+    country: chile
+    capability: fraud-and-aml-risks
+    portfolio: tecnologico
+    equipo: equipo que crea la api
+  tags:
+    - rest
+    - go
+  links:
+    - url: url-obtenida-de-compartir-de-confluence-del-RFC
+      title: RFC
+      icon: docs
+    - url: https://app.datadoghq.com/dashboard/mfy-amg-bss/integraciones-cl-consolidada?from_ts=1688656754013&to_ts=1688660354013&live=true
+      title: APM DataDog
+      icon: dashboard
+spec:
+  type: service
+  owner: group:fiftech_integraciones_chile
+  lifecycle: pre-production
+  system: fraud-and-aml-risks-chile
+  providesApis:
+    - mortgage-loan-catalogs
+  consumesApis:
+    - component:example
+  dependsOn:
+    - resource:x-database
+    - resource:x-osb
