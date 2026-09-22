@@ -1,0 +1,35 @@
+name: CI Tests (Go Hexagonal)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-and-build:
+    name: Run Tests and Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out código fuente
+      uses: actions/checkout@v4
+
+    - name: Configurar Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.x'
+
+    - name: Descargar dependencias
+      run: go mod download
+
+    - name: Ejecutar Pruebas (Unitarias, Integración, E2E)
+      # Ejecutamos las pruebas con verbosidad para que los logs de GitHub muestren cada caso
+      run: go test -v ./internal/... ./test/... -coverprofile=coverage.txt
+
+    - name: Mostrar Cobertura de Código
+      run: go tool cover -func=coverage.txt
+
+    - name: Compilar Binario (Dry-Run)
+      # Validamos que el proyecto compile exitosamente usando el Makefile corporativo
+      run: make build
