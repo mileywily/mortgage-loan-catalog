@@ -75,3 +75,7 @@ coverfile_out*
 bin/
 *.exe
 
+
+# Temp files
+*~
+
