@@ -23,10 +23,13 @@ jobs:
     - name: Descargar dependencias
       run: go mod download
 
-    - name: Ejecutar Pruebas y Cobertura
+    - name: Ejecutar Pruebas y Cobertura (Unit & Integration)
       run: |
         make test
         make coverage
+
+    - name: Ejecutar Pruebas E2E
+      run: go test -v ./test/e2e
 
     - name: Compilar Binario (Dry-Run)
       # Validamos que el proyecto compile exitosamente usando el Makefile corporativo
