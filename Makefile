@@ -9,7 +9,7 @@ build:
 
 test:
 	@echo "Ejecutando tests..."
-	@go test  $(go list ./internal/... | grep -vE 'mocks|ports|config|cmd') --coverprofile coverfile_out >> /dev/null
+	@go test $(shell go list ./internal/... | grep -vE 'mocks|ports|config|cmd') --coverprofile coverfile_out >> /dev/null
 
 	@go tool cover -func coverfile_out
 
