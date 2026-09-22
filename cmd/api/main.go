@@ -54,9 +54,10 @@ func main() {
 	javaService := services.NewCatalogService(javaRepo)
 	
 	defaultBackend := os.Getenv("DEFAULT_BACKEND")
-	defaultService := dummyService // Fallback by default
-	if defaultBackend == "real" {
-		defaultService = realService
+	defaultService := realService // Fallback by default (real URL)
+	
+	if defaultBackend == "dummy" {
+		defaultService = dummyService
 	} else if defaultBackend == "java" {
 		defaultService = javaService
 	}
